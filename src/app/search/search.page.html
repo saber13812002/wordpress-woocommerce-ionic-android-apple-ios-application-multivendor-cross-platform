@@ -1,0 +1,54 @@
+<ion-header mode='ios' >
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-searchbar animated [(ngModel)]="searchInput" (ionChange)="onInput()"></ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="search">
+
+<div *ngIf="!loading && !products.length && !searchInput" class="empty">
+  <ion-icon color="light" name="search"></ion-icon>
+</div>  
+
+<div class="spinner" *ngIf="loading"><ion-spinner> </ion-spinner></div>
+
+<div *ngIf="!products.length && !loading && searchInput" class="no-products">
+  <h2>{{"No Products found" | translate}}!</h2>
+</div>
+
+<ion-list *ngIf="!loading">
+  <ion-row *ngIf="products">
+    <ion-col size="{{settings.colWidthSearch}}" size-sm="4" size-md="3" *ngFor="let product of products" [style.padding.px]="settings.dimensions.productPadding">
+    <ion-card mode="md" class="ion-activatable ion-focusable hydrated {{settings.settings.product_shadow}}" [style.border-radius.px]="settings.dimensions.productBorderRadius">
+      <ion-img alt="" *ngIf="product.images" (click)="getProduct(product)" [style.height.px]="settings.dimensions.searchGridViewHeight" src="{{product.images[0]?.src}}"></ion-img>
+      <ion-icon name="heart-empty" mode="md" class="wishlist-button-grid" *ngIf="!settings.wishlist[product.id]" (click)="settings.addToWishlist(product.id)"></ion-icon>
+      <ion-icon name="heart" color="{{settings.theme.button}}" mode="md" class="wishlist-button-grid" *ngIf="settings.wishlist[product.id]" (click)="settings.removeFromWishlist(product.id)"></ion-icon>
+
+      <ion-button color="danger" class="stock" *ngIf="product.stock_status == 'outofstock'">{{"No Stock" | translate}}</ion-button>
+      <div *ngIf="product.stock_status == 'instock'">
+      <ion-button class="offer" *ngIf="((product.regular_price - product.price) /product.regular_price*100) >= '1'">{{(product.regular_price - product.price) /product.regular_price*100 | number : '1.0-0'}}%</ion-button>
+      </div>
+      
+      <ion-card-header (click)="getProduct(product)">
+        <ion-card-subtitle mode="md">{{product.name}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content (click)="getProduct(product)">
+        <p class="price">
+          <span class="regular-price" *ngIf="!product.sale_price">{{1*product.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+          <span class="regular-price" *ngIf="product.sale_price">{{1*product.sale_price | currency:settings.currency:symbol:'1.0-2'}}</span>
+            <span *ngIf="product.sale_price" class="special-price"><del>{{1*product.regular_price | currency:settings.currency:symbol:'1.0-2'}}</del></span>
+        </p>
+      </ion-card-content>
+    </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-list>
+
+<ion-infinite-scroll threshold="100px" *ngIf="hasMoreItems && products.length" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+</ion-content>

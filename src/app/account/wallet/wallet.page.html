@@ -1,0 +1,47 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title>{{"Wallet" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="spinner" *ngIf="!wallet?.balance"><ion-spinner> </ion-spinner></div>  
+
+<ion-list *ngIf="wallet.balance">
+
+<ion-item lines="none">
+  <ion-label class="bold">{{"Balance" | translate}} {{wallet.balance}}</ion-label>
+  <ion-button color="{{settings.theme.button}}" slot="end" (click)="showField()">
+    {{"Add balance" | translate}}
+  </ion-button>
+</ion-item>
+
+<div *ngIf="show">
+<ion-item lines="none">
+    <ion-input required type="number" [(ngModel)]="amount" name="amount" placeholder="Enter Amount"></ion-input>
+</ion-item>
+
+<ion-button expand="block" color="{{settings.theme.button}}" (click)="addTopup()">{{"Add" | translate}}</ion-button>
+</div>
+
+<ion-item *ngFor="let item of wallet.transactions">
+    <ion-label text-wrap>
+      <ion-text>
+        <h3>{{item.type.toUpperCase()}} {{item.amount}}</h3>
+      </ion-text>
+      <p>{{item.details}}</p>
+      <ion-text>
+        <p>{{item.date}}</p>
+      </ion-text>
+    </ion-label>
+    <ion-text slot="end"><p>{{item.balance}}</p></ion-text>
+</ion-item>
+
+</ion-list>
+
+</ion-content>

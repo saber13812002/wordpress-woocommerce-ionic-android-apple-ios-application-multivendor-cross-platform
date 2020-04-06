@@ -1,0 +1,29 @@
+<ion-header mode='ios'>
+    <ion-toolbar color="{{settings.theme.header}}">
+      <ion-buttons slot="start">
+         <ion-back-button defaultHref="/tabs/categories/products"></ion-back-button>
+      </ion-buttons>
+    <ion-title>Contact</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+	<ion-item>
+        <ion-label position="stacked">{{"Your Name" | translate}}</ion-label>
+        <ion-input required type="text" [(ngModel)]="form.yourName" name="name"> </ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label position="stacked">{{"Your Email" | translate}}</ion-label>
+        <ion-input required type="text" [(ngModel)]="form.yourEmail" name="email"> </ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label position="stacked">{{"Your Phone" | translate}}</ion-label>
+        <ion-input required type="text" [(ngModel)]="form.yourTel" name="phone"> </ion-input>
+    </ion-item>
+    <ion-item *ngIf="status?.message" lines="none">
+    <ion-label text-wrap>{{status.message}}</ion-label>
+    </ion-item>
+    <ion-button [disabled]="disableButton" color="{{settings.theme.button}}" expand="block" fill="solid" (click)="submit()">{{"Submit" | translate}}</ion-button>	
+
+</ion-content>

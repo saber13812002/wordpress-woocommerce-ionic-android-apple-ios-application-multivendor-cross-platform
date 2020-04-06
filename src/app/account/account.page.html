@@ -1,0 +1,129 @@
+<ion-header mode='ios'>
+    <ion-grid class="my-account-header">
+        <ion-row>
+            <ion-col>
+                <ion-item color="transperant" lines="none">
+                    <ion-icon class="icon-header-icon ion-margin-end" name="person" slot="start"></ion-icon>
+                    <ion-label class="account-name">{{"Account" | translate}}</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row class="header-menus" justify-content-between="">
+            <ion-col>
+                <ion-item color="transperant" lines="none" (click)="goTo('tabs/account/wishlist')" *ngIf="settings.customer?.id" class="ion-activatable">
+                    <ion-icon class="ion-margin-end" name="heart" slot="start"></ion-icon>
+                    <ion-label>{{"Wishlist" | translate}}</ion-label>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item color="transperant" lines="none" (click)="goTo('tabs/account/wallet')" *ngIf="settings.customer?.id && settings.settings?.enable_wallet" class="ion-activatable">
+                    <ion-icon class="ion-margin-end" name="wallet" slot="start"></ion-icon>
+                    <ion-label>{{"Wallet" | translate}}</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item (click)="goTo('tabs/account/login')" lines="inset" *ngIf="!settings.customer?.id" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="log-in" mode="md" slot="start"></ion-icon>
+              <ion-label>{{"Login" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item (click)="goTo('tabs/account/register')" lines="inset" *ngIf="!settings.customer?.id" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="person" slot="start"></ion-icon>
+            <ion-label>{{"Register" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item (click)="goTo('tabs/account/points')" lines="inset" *ngIf="settings.reward" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="cash" slot="start"></ion-icon>
+            <ion-label>{{"Points" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item (click)="goTo('tabs/account/address')" lines="inset" *ngIf="settings.customer?.id" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="pin" slot="start"></ion-icon>
+            <ion-label>{{"Address" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item (click)="goTo('tabs/account/orders')" lines="inset" *ngIf="settings.customer?.id" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="document" slot="start"></ion-icon>
+            <ion-label>{{"Orders" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <a href="https://wa.me/{{settings.settings?.whatsapp_number}}">
+       <ion-item lines="inset" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="logo-whatsapp" slot="start"></ion-icon>
+            <ion-label>{{"Whatsapp us" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        </a>
+        <ion-item (click)="email(settings?.settings?.support_email)" *ngIf="settings?.settings?.support_email" lines="inset" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="mail" slot="start"></ion-icon>
+            <ion-label>{{"Email us" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+
+        <ion-item lines="inset" (click)="goTo('tabs/account/map')" class="ion-activatable" *ngIf="settings.settings?.switchLocations">
+            <ion-icon class="icon-start ion-margin-end" name="compass" slot="start"></ion-icon>
+            <ion-label>{{"Locations" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item lines="inset" class="ion-activatable" (click)="shareApp()">
+            <ion-icon class="icon-start ion-margin-end" name="share-alt" slot="start"></ion-icon>
+            <ion-label>{{"Invite Friends" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item lines="inset" class="ion-activatable" (click)="rateApp()">
+            <ion-icon class="icon-start ion-margin-end" name="star" slot="start"></ion-icon>
+            <ion-label>{{"Rate us" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item lines="inset" (click)="goTo('tabs/account/blogs')" lines="inset" class="ion-activatable">
+          <ion-icon class="icon-start ion-margin-end" name="document" slot="start"></ion-icon>
+        <ion-label>{{"Blog" | translate}}</ion-label>
+           <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="settings.languages?.length" lines="inset" (click)="goTo('tabs/account/setting')" lines="inset" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="globe" slot="start"></ion-icon>
+            <ion-label>{{"Language" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+
+        <div *ngFor="let page of settings.pages">
+        <ion-item lines="inset" *ngIf="page.url" (click)="goTo('/tabs/account/post/'+page.url)" lines="inset" class="ion-activatable">
+            <ion-icon class="icon-start ion-margin-end" name="document" slot="start"></ion-icon>
+            <ion-label>{{page.title}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+        </div>
+        <ion-item lines="inset" class="ion-activatable" (click)="log_out()" *ngIf="settings.customer?.id">
+            <ion-icon class="icon-start ion-margin-end" name="log-out" mode="md" slot="start"></ion-icon>
+            <ion-label>{{"Logout" | translate}}</ion-label>
+            <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+        </ion-item>
+      </ion-list>
+
+      <ion-list *ngIf="settings.vendor">
+      <ion-list-header>
+        <ion-label>{{"Vendor" | translate}}</ion-label>
+      </ion-list-header>
+
+      <ion-item lines="inset" (click)="goTo('tabs/account/vendor-orders')" class="ion-activatable">
+        <ion-icon class="icon-start ion-margin-end" name="document" slot="start"></ion-icon>
+        <ion-label>{{"Orders" | translate}}</ion-label>
+           <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+      </ion-item>
+      <ion-item lines="inset" (click)="goTo('tabs/account/vendor-products')" class="ion-activatable">
+        <ion-icon class="icon-start ion-margin-end" name="document" slot="start"></ion-icon>
+        <ion-label>{{"Products" | translate}}</ion-label>
+           <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+      </ion-item>
+      <ion-item lines="inset" (click)="goTo('tabs/account/add-products')" class="ion-activatable">
+        <ion-icon class="icon-start ion-margin-end" name="add-circle" slot="start"></ion-icon>
+        <ion-label>{{"Add Products" | translate}}</ion-label>
+           <ion-icon name="arrow-forward" mode="ios" color="medium"></ion-icon>
+      </ion-item>
+
+    </ion-list>
+</ion-content>

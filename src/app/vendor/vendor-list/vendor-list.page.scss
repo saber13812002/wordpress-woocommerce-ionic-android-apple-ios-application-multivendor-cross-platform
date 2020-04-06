@@ -1,0 +1,18 @@
+.vendor-list {
+    ion-card {
+        margin: 0;
+    }
+}
+ion-card-title{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+ion-card-header{
+	padding: 16px 8px;
+	text-align: center;
+}

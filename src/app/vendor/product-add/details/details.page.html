@@ -1,0 +1,98 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account/category"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{"Details" | translate}}
+    </ion-title>
+
+     <ion-buttons slot="end">
+	    <ion-button style="margin-right: 10px; text-transform: capitalize;" (click)="next()">{{"Next" | translate}}</ion-button>
+	  </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+<ion-item>
+    <ion-label position="floating">{{"Product Name" | translate}}</ion-label>
+    <ion-input required type="text" [(ngModel)]="vendor.product.name" name="name"></ion-input>
+</ion-item>
+
+<ion-item>
+    <ion-label>{{"Type" | translate}}</ion-label>
+    <ion-select [(ngModel)]="vendor.product.type" name="type" okText="OK" cancelText="Cancel">
+               <ion-select-option value="simple">{{"Simple" | translate}}</ion-select-option>
+               <ion-select-option value="external">{{"External" | translate}}</ion-select-option>
+    </ion-select>
+</ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"Regular Price" | translate}}</ion-label> 
+    <ion-input required type="text" [(ngModel)]="vendor.product.regular_price" name="regular_price"></ion-input>
+</ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"Sale Price" | translate}}</ion-label>
+    <ion-input required type="text" [(ngModel)]="vendor.product.sale_price" name="sale_price"></ion-input>
+</ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"Short Description" | translate}}</ion-label>
+    <ion-textarea  rows="2" required type="text" [(ngModel)]="vendor.product.short_description" name="short_description"></ion-textarea>
+</ion-item> 
+
+<ion-item>
+    <ion-label position="floating">{{"Description" | translate}}</ion-label>
+    <ion-textarea rows="3" required type="text" [(ngModel)]="vendor.product.description" name="short_description"></ion-textarea>
+</ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"Weight" | translate}}</ion-label>
+    <ion-input required type="text" [(ngModel)]="vendor.product.weight" name="weight"></ion-input>
+</ion-item>
+
+  <ion-item class="date">
+      <ion-label position="floating">{{"Date On Sale From" | translate}}</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="vendor.product.date_on_sale_from" name="date_on_sale_from"></ion-datetime>
+  </ion-item>
+
+  <ion-item class="date">
+      <ion-label position="floating">{{"Date On Sale To" | translate}}</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="vendor.product.date_on_sale_to" name="date_on_sale_to"></ion-datetime>
+  </ion-item>
+
+
+  <ion-item>
+      <ion-label>{{"Purchasable" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="vendor.product.purchasable" name="purchasable"></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"InStock" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="vendor.product.in_stock" name="in_stock"></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"Shipping Required" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="vendor.product.shipping_required" name="shipping_required"></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"Sold Individually" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="vendor.product.sold_individually" name="sold_individually"></ion-toggle>
+  </ion-item>
+
+  <ion-item class="option" *ngIf="vendor.product.type != 'external'">
+    <ion-label>{{"Manage Stock" | translate}}</ion-label>
+    <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="vendor.product.manage_stock" name="manage_stock"></ion-toggle>
+</ion-item>
+
+<ion-item *ngIf="vendor.product.manage_stock && vendor.product.type != 'external'">
+    <ion-label position="floating">{{"Quantity" | translate}}</ion-label>
+    <ion-input required type="number" [(ngModel)]="vendor.product.stock_quantity" name="stock_quantity"></ion-input>
+</ion-item>
+
+</ion-content>

@@ -1,0 +1,168 @@
+<ion-header mode='ios' class="product-header">
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account/products-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{product?.name}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="product">
+
+  <div *ngIf="product" class="margin">
+
+  <ion-list>
+  <ion-list-header>
+    <ion-label>{{"Product ID" | translate}} - {{product.id}}</ion-label>
+  </ion-list-header>
+
+  <ion-item>
+      <ion-label position="floating">{{"Name" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="product.name" name="name"></ion-input>
+  </ion-item>
+
+  <ion-item style="padding-top:10px">
+      <ion-label position="floating">{{"Type" | translate}}</ion-label>
+      <ion-select [(ngModel)]="product.type" name="type" okText="OK" cancelText="Cancel">
+                 <ion-select-option value="simple">{{"Simple" | translate}}</ion-select-option>
+               <ion-select-option value="grouped">{{"Grouped" | translate}}</ion-select-option>
+               <ion-select-option value="external">{{"External" | translate}}</ion-select-option>
+               <!--ion-select-option value="variable">Variable</ion-select-option-->
+      </ion-select>
+  </ion-item>
+
+
+  <ion-item style="padding-top:10px">
+      <ion-label position="floating">{{"Status" | translate}}</ion-label>
+      <ion-select [(ngModel)]="product.status" name="status" okText="OK" cancelText="Cancel">
+                 <ion-select-option value="draft">{{"Draft" | translate}}</ion-select-option>
+               <ion-select-option value="pending">{{"Pending" | translate}}</ion-select-option>
+               <!--ion-select-option value="public">public</ion-select-option-->
+               <ion-select-option value="publish">{{"Publish" | translate}}</ion-select-option>
+      </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="product.type == 'external'">
+    <ion-label position="floating">{{"External Url" | translate}}</ion-label>
+    <ion-input required type="text" [(ngModel)]="product.external_url" name="external_url"></ion-input>
+  </ion-item>
+
+
+  <ion-item>
+      <ion-label position="floating">{{"Short Description" | translate}}</ion-label>
+      <ion-textarea rows="4" required type="text" [(ngModel)]="product.short_description" name="short_description"></ion-textarea>
+  </ion-item>  
+
+  <ion-item>
+      <ion-label position="floating">{{"Description" | translate}}</ion-label>
+      <ion-textarea rows="4" required type="text" [(ngModel)]="product.description" name="description"></ion-textarea>
+  </ion-item>
+
+  <ion-list-header>
+    <ion-label>{{"Image" | translate}}</ion-label>
+  </ion-list-header>
+
+      <img tappable *ngFor="let item of product.images; let i = index;" src="{{item.src}}" style="width: 80px; height: auto; padding: 3px; border: 1px solid #f5fdff" (click)="replaceImage(i)">
+
+      <ion-spinner *ngIf="uploadingImage" name="circles" style="float: left; margin: 27px 27px 27px 27px; padding: 3px; display: inline;"></ion-spinner>
+      
+      <img tappable src="assets/image/upload_placeholder.png" style="width: 80px; height: auto; padding: 3px; border: 1px solid #f5fdff" (click)="picker()"/>
+
+  <ion-item>
+      <ion-label position="floating">{{"Regular Price" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="product.regular_price" name="regular_price"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label position="floating">{{"Sale Price" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="product.sale_price" name="sale_price"></ion-input>
+  </ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"Weight" | translate}}</ion-label>
+    <ion-input required type="text" [(ngModel)]="product.weight" name="weight"></ion-input>
+</ion-item>
+
+  <ion-item class="date">
+      <ion-label position="floating">{{"Date On Sale From" | translate}}</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="product.date_on_sale_from" name="date_on_sale_from"></ion-datetime>
+  </ion-item>
+
+  <ion-item class="date">
+      <ion-label position="floating">{{"Date On Sale To" | translate}}</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="product.date_on_sale_to" name="date_on_sale_to"></ion-datetime>
+  </ion-item>
+
+
+  <ion-item>
+      <ion-label>{{"Purchasable" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="product.purchasable" name="purchasable"></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"InStock" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="product.in_stock" name="in_stock"></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"Shipping Required" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="product.shipping_required" name="shipping_required"></ion-toggle>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"Sold Individually" | translate}}</ion-label>
+      <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="product.sold_individually" name="sold_individually"></ion-toggle>
+  </ion-item>
+
+  <ion-item class="option" *ngIf="product.type != 'external'">
+    <ion-label>{{"Manage Stock" | translate}}</ion-label>
+    <ion-toggle color="{{settings.theme.button}}" checked="true" [(ngModel)]="product.manage_stock" name="manage_stock"></ion-toggle>
+</ion-item>
+
+<ion-item *ngIf="product.manage_stock && product.type != 'external'">
+    <ion-label position="floating">{{"Quantity" | translate}}</ion-label>
+    <ion-input required type="number" [(ngModel)]="product.stock_quantity" name="stock_quantity"></ion-input>
+</ion-item>
+
+  <ion-item style="padding-top:10px" *ngIf="data?.categories">
+      <ion-label position="floating">{{"Categories" | translate}}</ion-label>
+      <ion-select [(ngModel)]="categories" name="categories" multiple="true" okText="OK" cancelText="Cancel">
+                  <div *ngFor="let field of data.categories">
+                 <ion-select-option value="{{field.id}}">{{field.name}}</ion-select-option>
+                 </div>
+      </ion-select>
+  </ion-item>
+
+  <div *ngIf="variations?.length" class="related-products">
+    <ion-item *ngIf="variations" class="related-item-name">{{"Variations" | translate}}</ion-item>
+    <div class="scroll-related-products">
+        <div class="product" *ngFor="let item of variations" [style.width.%]="settings.dimensions.productSliderWidth">
+            <ion-card class="ion-activatable ion-focusable hydrated">
+              <ion-img alt="" (click)="editProduct(item)" [style.height.px]="settings.dimensions.productsGridViewHeight" src="{{item.image.src}}"></ion-img>
+              <ion-card-header (click)="editProduct(item)">
+                  <ion-card-subtitle mode="md" style="text-align: center;">{{item.id}}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content (click)="editProduct(item)">
+                  <p class="price">
+                    <span class="regular-price" *ngIf="!item.sale_price">{{item.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+                      <span class="regular-price" *ngIf="item.sale_price">{{item.sale_price | currency:settings.currency:symbol:'1.0-2'}}<span class="special-price"><del>{{item.regular_price | currency:settings.currency:symbol:'1.0-2'}}</del></span></span>
+                  </p>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </div>
+  </div>
+
+
+    <div padding>
+    <ion-button class="add-to-cart-button" color="{{settings.theme.button}}" expand="block" fill="solid" (click)="saveProduct()">{{"SAVE" | translate}}</ion-button>
+    </div>
+
+  </ion-list>
+
+</div>
+
+  
+</ion-content>

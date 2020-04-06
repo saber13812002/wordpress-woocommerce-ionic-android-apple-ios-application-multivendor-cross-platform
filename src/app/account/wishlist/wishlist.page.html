@@ -1,0 +1,66 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Wishlist" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="wishlist">
+
+<div class="spinner" *ngIf="!wishlist && settings.customer?.id"><ion-spinner> </ion-spinner></div>
+
+<div *ngIf="!settings.customer?.id" class="empty">
+  <ion-icon name="heart-empty"></ion-icon>
+</div>
+
+<div *ngIf="settings.customer?.id">
+    <div *ngIf="wishlist">
+        <div *ngIf="!wishlist.length" text-center class="empty">
+            <ion-icon name="heart-empty"></ion-icon>
+        </div>
+        <div *ngIf="wishlist.length">
+            <!-- Products List Layout -->
+            <!-- For different list layouts change class name product-list1, product-list2, product-list3 -->  
+              <ion-list  *ngIf="wishlist?.length" class="product-list3">
+                <ion-item *ngFor="let product of wishlist" lines="none">
+                    <ion-thumbnail slot="start" (click)="getProduct(product)" class="ion-activatable ion-focusable hydrated">
+                        <img *ngIf="product.images?.length" src="{{product.images[0].src}}">
+                    </ion-thumbnail>
+                    <ion-grid class="details">
+                        <ion-row (click)="getProduct(product)">
+                            <ion-col>
+                                <ion-label>
+                                    {{product.name}}
+                                </ion-label>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row (click)="getProduct(product)">
+                            <ion-col>
+                                <p class="price">
+                                    <span *ngIf="!product.sale_price" class="regular-price">
+                                        {{1*product.price | currency:settings.currency:symbol:'1.0-2'}}
+                                    </span>
+                                    <span *ngIf="product.sale_price" class="regular-price">
+                                        {{1*product.sale_price | currency:settings.currency:symbol:'1.0-2'}}
+                                    </span>
+                                    <span *ngIf="product.sale_price" class="special-price">
+                                        <del>
+                                            {{1*product.regular_price | currency:settings.currency:symbol:'1.0-2'}}
+                                        </del>
+                                    </span>
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ion-button fill="clear" (click)="removeFromWishlist(product.id)" class="trash"><ion-icon name="md-trash" style="font-size:22px;"></ion-icon></ion-button>
+                    <!--ion-button color="danger" class="stock" *ngIf="product.stock_status == 'outofstock'">{{"No Stock" | translate}}</ion-button>
+                      <div *ngIf="product.stock_status == 'instock'">
+                      <ion-button class="offer" *ngIf="((product.regular_price - product.price) /product.regular_price*100) >= '1'">{{(product.regular_price - product.price) /product.regular_price*100 | number : '1.0-0'}}%</ion-button>
+                      </div-->
+                </ion-item>
+            </ion-list>
+        </div>
+    </div>
+</div>
+</ion-content>

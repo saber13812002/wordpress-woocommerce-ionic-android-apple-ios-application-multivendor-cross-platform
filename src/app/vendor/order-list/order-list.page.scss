@@ -1,0 +1,31 @@
+.order-list {
+    ion-card {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+    ion-card:has(> .activated){
+        opacity: 0.8;
+        transition-timing-function: ease-out;
+        transition: .3s;
+        box-shadow: none;
+    }
+    ion-card-title {
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .empty {
+        margin-top: 50px;
+        text-align: center;
+        ion-icon {
+            font-size: 7.2em;
+        }
+    }
+
+    ion-card-subtitle{
+        font-weight: 900;
+        font-size: 13px;
+        color: #000;
+    }
+}

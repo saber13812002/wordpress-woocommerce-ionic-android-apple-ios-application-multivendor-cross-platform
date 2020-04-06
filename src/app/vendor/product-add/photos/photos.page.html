@@ -1,0 +1,43 @@
+<ion-header mode='ios'>
+ <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account/category/{{vendor.product.categories[0]}}/details"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{"Photos" | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+	<div class="camera">
+	  <ion-button fill="clear" color="{{settings.theme.button}}"  (click)="picker()"><ion-icon name="camera"></ion-icon></ion-button>
+	</div>
+
+	<div style="text-align: center; margin: 20px 0;">
+	    <ion-spinner *ngIf="uploadingImageSpinner"></ion-spinner>
+	</div>
+
+  <div class="images" *ngIf="vendor.product.images.length">
+    <ion-row class="row">
+      <ion-col *ngFor="let item of vendor.product.images; let i = index;" class="col">
+        <img tappable src="{{item.src}}" (click)="replaceImage(i)">
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-row>
+        <ion-col>
+          <ion-button size="full" (click)="publish()" color="{{settings.theme.button}}">{{"Publish" | translate}}</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="full" (click)="draft()" color="{{settings.theme.button}}">{{"Draft" | translate}}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-toolbar>
+  </ion-footer>

@@ -1,0 +1,42 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Address" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+<div *ngIf="settings.customer">
+	<ion-list-header>
+    <ion-label>{{"Billing Address" | translate}}</ion-label>
+  </ion-list-header>
+
+  <ion-item detail (click)="editAddress()">
+    <ion-label text-wrap>
+    <p>
+    <span>{{settings.customer.billing.first_name}}</span>&nbsp;<span>{{settings.customer.billing.last_name}}</span>&nbsp;<span>{{settings.customer.billing.company}}</span>&nbsp;<span>{{settings.customer.billing.address_1}}</span>&nbsp;<span>{{settings.customer.billing.address_2}}</span>&nbsp;<span>{{settings.customer.billing.city}}</span>
+    <span>{{settings.customer.billing.state}}</span>&nbsp;<span>{{settings.customer.billing.postcode}}</span>&nbsp;<span>{{settings.customer.billing.country}}</span>
+    &nbsp;<span>{{settings.customer.billing.email}}</span>&nbsp;<span>{{settings.customer.billing.phone}}</span>
+    </p>
+    </ion-label>
+  </ion-item>
+
+  <ion-list-header>
+    <ion-label>{{"Shipping Address" | translate}}</ion-label>
+  </ion-list-header>
+
+  <ion-item detail (click)="editAddress()">
+    <ion-label text-wrap>
+      <p>
+    <span>{{settings.customer.shipping.first_name}}</span>&nbsp;<span>{{settings.customer.shipping.last_name}}</span>&nbsp;<span>{{settings.customer.shipping.company}}</span>&nbsp;<span>{{settings.customer.shipping.address_1}}</span>&nbsp;<span>{{settings.customer.shipping.address_2}}</span>&nbsp;<span>{{settings.customer.shipping.city}}</span>&nbsp;
+    <span>{{settings.customer.shipping.state}}</span>&nbsp;<span>{{settings.customer.shipping.postcode}}</span>&nbsp;<span>{{settings.customer.shipping.country}}</span>&nbsp;
+    <span>{{settings.customer.shipping.email}}</span>&nbsp;<span>{{settings.customer.shipping.phone}}</span>
+  </p>
+    </ion-label>
+  </ion-item>
+
+</div>
+</ion-content>

@@ -1,0 +1,41 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-title>{{"Filter" | translate}}</ion-title>
+    <ion-buttons slot="end">
+	    <ion-button (click)="dismiss()">
+	        <ion-icon slot="end" name="md-close" style="font-size: 20px;"></ion-icon>
+	    </ion-button>
+	</ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <ion-list-header>
+        <ion-label>{{"Price" | translate}}</ion-label>
+    </ion-list-header>
+    <ion-item>
+        <ion-range dualKnobs="true" value="{{price}}" min="0" max="{{settings.settings?.max_price}}" [(ngModel)]="price" name="price" color="{{settings.theme.button}}">
+            <ion-label slot="start">{{price.lower}}</ion-label>
+            <ion-label slot="end">{{price.upper}}</ion-label>
+        </ion-range>
+    </ion-item>   
+    <div *ngIf="attributes">
+      <div *ngFor="let attribute of attributes | keys">
+          <div *ngIf="attribute.value.terms.length">
+              <ion-list-header>
+                  <ion-label>{{attribute.value.name}}</ion-label>
+              </ion-list-header>
+              <ion-list>
+                <ion-item *ngFor="let term of attribute.value.terms" lines="none">
+                  <ion-label>{{term.name}} </ion-label>
+                  <ion-checkbox [(ngModel)]="term.selected"> </ion-checkbox>
+                </ion-item>
+              </ion-list>  
+          </div>
+      </div>
+    </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar color="{{settings.theme.button}}" (click)="applyFilter()">
+    <ion-title text-center>{{"Apply" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-footer>

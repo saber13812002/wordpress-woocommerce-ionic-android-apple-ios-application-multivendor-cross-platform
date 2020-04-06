@@ -1,0 +1,37 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom"  color="{{settings.theme.tabBar}}">
+    <ion-tab-button tab="home">
+      <ion-icon name="home"></ion-icon>
+      <!--<ion-label>{{'Home' | translate}}</ion-label>-->
+    </ion-tab-button>
+<!--
+    <ion-tab-button tab="vendor">
+      <ion-icon name="list"></ion-icon>
+      <ion-label>{{'Store' | translate}}</ion-label>
+    </ion-tab-button>
+-->
+    <ion-tab-button tab="search">
+      <ion-icon name="search"></ion-icon>
+      <!--<ion-label>{{'Search' | translate}}</ion-label>-->
+    </ion-tab-button>
+
+    <ion-tab-button tab="categories">
+      <ion-icon name="apps" mode="md"></ion-icon>
+      <!--<ion-label>{{'Category' | translate}}</ion-label>-->
+    </ion-tab-button>
+
+    <ion-tab-button tab="cart">
+      <ion-icon name="basket" mode="md"></ion-icon>
+      <!--<ion-label>{{'Cart' | translate}}</ion-label>-->
+      <ion-badge color="danger" *ngIf="data.count != 0">{{data.count}}</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="account">
+      <ion-icon name="person"></ion-icon>
+      <!--<ion-label>{{'Account' | translate}}</ion-label>-->
+    </ion-tab-button>
+    
+  </ion-tab-bar>
+
+</ion-tabs>

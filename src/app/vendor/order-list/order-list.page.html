@@ -1,0 +1,49 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Orders" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="order-list">
+
+  <div class="spinner" *ngIf="loader"><ion-spinner> </ion-spinner></div>
+
+
+  <div *ngIf="orders">
+    <div *ngIf="!loader && orders.length == 0" text-center class="empty">
+    <ion-icon name="document"></ion-icon>
+    </div>
+
+    <ion-card *ngFor="let item of orders" mode="md">
+      <ion-card-header (click)="getDetail(item)" class="ion-activatable ion-focusable hydrated">
+        <ion-card-subtitle>{{item.id}} - <span style="text-transform: uppercase;">{{item.status}}</span></ion-card-subtitle>
+        <ion-card-title>{{item.total | currency:settings.currency:symbol:'1.0-2'}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{item.date_created | date:'MMM d, y hh:mm a'}}</p>
+        <p [innerHTML]="item.payment_method_title"></p>
+        <ion-button size="small" (click)="getDetail(item)" color="{{settings.theme.button}}" fill="outline" slot="start">
+        <ion-icon slot="icon-only" name="eye"></ion-icon>
+        {{"View" | translate}}
+        </ion-button>
+        <ion-button size="small" (click)="editOrder(item)" color="{{settings.theme.button}}" fill="outline" slot="end">
+        <ion-icon slot="icon-only" name="create" mode="ios"></ion-icon>
+        {{"Edit" | translate}}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-infinite-scroll threshold="100px" *ngIf="hasMoreItems && orders.length" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+
+</ion-content>

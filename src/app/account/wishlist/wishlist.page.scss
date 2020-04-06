@@ -1,0 +1,44 @@
+.product-list3 {
+    ion-item {
+        --border-color: var(--ion-toolbar-border-color, var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.2))));
+        --border-width: 0 0 0.55px;
+        --padding-start: 0px;
+        padding: 10xp;
+        ion-thumbnail {
+            width: 28%;
+            height: 100%;
+            margin-top: 0;
+            margin-bottom: -4px;
+            padding: 10px;
+        }
+        .details {
+            align-self: flex-start;
+            padding: 0;
+            width: 104%;
+            ion-label {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 300;
+                font-size: small;
+            }
+            p {
+                margin: 0
+            }
+            .special-price {
+                font-size: x-small;
+                padding: 0 5px;
+            }
+            ion-icon {
+                font-size: x-large;
+                font-weight: 300;
+            }
+        }
+    }
+}
+.trash{
+    //TODO: saber
+    // position: absolute;
+    top: 16px;
+    right: 0;
+}

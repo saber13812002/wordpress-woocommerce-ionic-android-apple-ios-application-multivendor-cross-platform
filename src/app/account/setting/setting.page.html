@@ -1,0 +1,21 @@
+<ion-header mode='ios'>
+   <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+      <ion-title>{{"Setting" | translate}}</ion-title>
+   </ion-toolbar>
+</ion-header>
+<ion-content class="settings">
+   <div *ngIf="settings.languages.length">
+      <ion-list >
+         <ion-radio-group [(ngModel)]="config.lang" name="language" ngDefaultControl>
+         <ion-item *ngFor="let item of settings.languages">
+            <ion-label class="payment-method-title"><img src="{{item.country_flag_url}}" width="20"><span style="padding: 10px">{{item.native_name}}</span></ion-label>
+            <ion-radio value="{{item.language_code}}"> </ion-radio>
+         </ion-item>
+         </ion-radio-group>
+         <ion-button padding color="{{settings.theme.button}}" expand="block" fill="solid" (click)="applyLanguage()" >{{"Apply" | translate}}</ion-button>
+      </ion-list>
+   </div>
+</ion-content>

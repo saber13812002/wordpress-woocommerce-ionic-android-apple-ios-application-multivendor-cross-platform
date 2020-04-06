@@ -1,0 +1,32 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-title>
+      {{"Vendors" | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vendor-list">
+	<div class="spinner" *ngIf="!vendors?.length"><ion-spinner> </ion-spinner></div>
+
+	<ion-row>
+	    <ion-col size="4" size-sm="4" size-md="3" *ngFor="let item of vendors" (click)="getDetail(item)">
+	    <ion-card class="category-card" mode="md" class="ion-activatable ion-focusable hydrated">
+	      <ion-img *ngIf="item?.banner" src="{{item?.banner}}"></ion-img>
+	      <ion-card-header>
+	        <ion-card-title>{{item.store_info.store_name}}</ion-card-title>
+	      </ion-card-header>
+	    </ion-card>
+	    </ion-col>
+  	</ion-row>
+
+
+	<ion-infinite-scroll threshold="100px" *ngIf="hasMoreItems && vendors?.length" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+
+
+</ion-content>

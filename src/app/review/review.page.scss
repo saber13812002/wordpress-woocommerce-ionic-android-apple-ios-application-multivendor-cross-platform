@@ -1,0 +1,28 @@
+.review-star {
+    float: right;
+    .star-icon {
+        color: #f7f7f7;
+        font-size: 1em;
+        position: relative;
+    }
+    .star-icon.full:before {
+        color: #ffce00;
+        content: '\2605';
+        position: absolute;
+        left: 0;
+    }
+    .star-icon.half:before {
+        color: #ffce00;
+        content: '\2605';
+        position: absolute;
+        left: 0;
+        width: 50%;
+        overflow: hidden;
+    }
+    @-moz-document url-prefix() {
+        .star-icon {
+            font-size: 50px;
+            line-height: 34px;
+        }
+    }
+}

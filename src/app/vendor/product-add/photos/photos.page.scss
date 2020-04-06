@@ -1,0 +1,28 @@
+.camera{
+	text-align: center;
+
+	ion-icon{
+		font-size: 40px;
+	}
+}
+
+.images {
+    //background-color: #fff;
+    width: 100%;
+    .col {
+        padding: 0 5px 5px 0;
+        margin: 0;
+        min-width: 33.33%;
+        max-width: 33.33%;
+        width: 33.33%;
+        height: 120px;
+        border: 2px solid #eee;
+    }
+    .row {
+        padding: 5px 0 0 5px;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}

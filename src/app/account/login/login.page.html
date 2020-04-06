@@ -1,0 +1,108 @@
+<ion-header mode='ios'>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <!--ion-title>{{"Login" | translate}}</ion-title-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+
+  <!-- Top header image. uncomment if not using background image in scss file -->
+  <div class="login-logo">
+    <img src="assets/image/login_logo2.jpg">
+  </div>
+
+<!-- Login Form 1 -->
+<div class="login1">
+  <ion-card mode="md">
+  <div class="form">
+        <!--p><ion-text color="medium">-- {{"continue with" | translate}} --</ion-text></p>
+        <ion-grid>
+        <ion-row>
+        <ion-col size="6">
+        <ion-button expand="block" shape="undefined" mode="ios" fill="solid" color="google" (click)="googleLogin()" [disabled]="googleLogingInn">
+        <ion-icon slot="start" name="logo-google"></ion-icon>{{"Google"| translate}}</ion-button>
+        <br/>
+        </ion-col>
+        <ion-col size="6">
+        <ion-button expand="block" shape="undefined" mode="ios" fill="solid" color="facebook" (click)="facebookLogin()" [disabled]="facebookLogingInn">
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>{{"Facebook"| translate}}</ion-button>
+        </ion-col>
+        </ion-row>
+        </ion-grid>
+        <p><ion-text color="medium">-- {{"or use email address" | translate}} --</ion-text></p-->
+        <ion-list>
+        <form [formGroup]="form">
+          <ion-item mode="md">
+          <ion-icon slot="start" name="person" mode="md"></ion-icon>
+          <ion-input type="text" formControlName="username" placeholder="{{'Username' | translate}}"></ion-input>
+          </ion-item>
+          <ion-item mode="md">
+          <ion-icon slot="start" name="key" mode="md"></ion-icon>
+          <ion-input type="password" formControlName="password" placeholder="{{'Password' | translate}}"></ion-input>
+          </ion-item>
+         </form>
+        </ion-list>
+        <ion-button shape="undefined" mode="ios" fill="solid" color="{{settings.theme.button}}" expand="block" [disabled]="disableSubmit" (click)="onSubmit()">{{"Login"| translate}}</ion-button>
+        <ion-button color="{{settings.theme.button}}" expand="full" fill="clear" (click)="forgotton()">{{"Forgot Password"| translate}}?</ion-button>
+        <br/>
+        <!--ion-button expand="block" color="{{settings.theme.button}}" shape="round" mode="ios" fill="outline" (click)="loginWithPhone()" [disabled]="phoneLogingInn"><ion-spinner name="dots" color="{{settings.theme.button}}" *ngIf="phoneLogingInn"></ion-spinner><span *ngIf="!phoneLogingInn">{{"Login with OTP"| translate}}</span></ion-button-->
+        <br/>
+        <div class="errors" *ngIf="errors">
+          <div *ngFor="let error of errors | keys">
+            <span [innerHTML]="error.value"></span>
+          </div>
+        </div>
+  </div>
+  </ion-card>
+
+</div>
+
+<!-- Login Form 2 -->
+<!--div class="login1">
+  <ion-card mode="md">
+  <div class="form"> 
+        <ion-list>
+        <form [formGroup]="form">
+
+          <p><ion-text color="medium">-- {{"continue with" | translate}} --</ion-text></p>
+          <ion-grid>
+          <ion-row>
+          <ion-col size="6">
+          <ion-button expand="full" shape="round" mode="ios" fill="outline" color="google" (click)="googleLogin()" [disabled]="googleLogingInn">
+          <ion-icon slot="start" name="logo-google"></ion-icon>{{"Google"| translate}}</ion-button>
+          <br/>
+          </ion-col>
+          <ion-col size="6">
+          <ion-button expand="full" shape="round" mode="ios" fill="outline" color="facebook" (click)="facebookLogin()" [disabled]="facebookLogingInn">
+          <ion-icon slot="start" name="logo-facebook"></ion-icon>{{"Facebook"| translate}}</ion-button>
+          </ion-col>
+          </ion-row>
+          </ion-grid>
+          <p><ion-text color="medium">-- {{"or use email address" | translate}} --</ion-text></p>
+
+          <ion-item mode="md">
+          <ion-icon slot="start" name="person" mode="md"></ion-icon>
+          <ion-input type="text" formControlName="username" placeholder="Username"></ion-input>
+          </ion-item>
+          <ion-item mode="md">
+          <ion-icon slot="start" name="key" mode="md"></ion-icon>
+          <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+          </ion-item>
+         </form>  
+        </ion-list>
+        <ion-button shape="round" mode="ios" fill="solid" color="{{settings.theme.button}}" expand="full" [disabled]="disableSubmit" (click)="onSubmit()">{{"Login"| translate}}</ion-button>
+        <ion-button color="{{settings.theme.button}}" expand="full" fill="clear" (click)="forgotton()">{{"Forgot Password"| translate}}?</ion-button>
+        <br/>
+        <br/>
+        <div class="errors" *ngIf="errors">
+          <div *ngFor="let error of errors | keys">
+            <span [innerHTML]="error.value"></span>
+          </div>
+        </div>
+  </div>
+</ion-card>
+</div-->
+</ion-content>

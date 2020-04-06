@@ -1,0 +1,98 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account/vendor-products/edit-product"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{product?.name}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="product">
+
+  <div *ngIf="product" class="margin">
+
+    <ion-list>
+
+  <ion-item>
+      <ion-label>{{"Product ID" | translate}} - {{product.id}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+      <ion-label position="floating">{{"Description" | translate}}</ion-label>
+      <ion-textarea rows="4" required type="text" [(ngModel)]="product.description" name="description"></ion-textarea>
+  </ion-item>
+
+  <ion-list-header>
+      <ion-label>{{"Image" | translate}}</ion-label>
+  </ion-list-header>
+
+  <img tappable *ngFor="let item of product.images; let i = index;" src="{{item.src}}" style="width: 80px; height: auto; padding: 3px; border: 1px solid #f5fdff" (click)="replaceImage(i)">
+
+  <ion-spinner *ngIf="uploadingImage" name="circles" style="float: left; margin: 27px 27px 27px 27px; padding: 3px; display: inline;"></ion-spinner>
+  
+  <img tappable src="assets/image/upload_placeholder.png" style="width: 80px; height: auto; padding: 3px; border: 1px solid #f5fdff" (click)="picker()"/>
+
+  <ion-item>
+      <ion-label>{{"Price" | translate}}</ion-label>
+      <ion-input type="number" [(ngModel)]="product.price" name="price" readonly></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label position="floating">{{"Regular Price" | translate}}</ion-label>
+      <ion-input required type="number" [(ngModel)]="product.regular_price" name="regular_price"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label position="floating">{{"Sale Price" | translate}}</ion-label>
+      <ion-input required type="number" [(ngModel)]="product.sale_price" name="sale_price"></ion-input>
+  </ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"weight" | translate}}</ion-label>
+    <ion-input required type="text" [(ngModel)]="product.weight" name="weight"></ion-input>
+</ion-item>
+
+  <ion-item class="date">
+      <ion-label position="floating">{{"Date on sale from" | translate}}</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="product.date_on_sale_from" name="date_on_sale_from"></ion-datetime>
+  </ion-item>
+
+  <ion-item class="date">
+      <ion-label position="floating">{{"Date on sale to" | translate}}</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="product.date_on_sale_to" name="date_on_sale_to"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>{{"InStock" | translate}}</ion-label>
+      <ion-toggle checked="true" [(ngModel)]="product.in_stock" name="in_stock"></ion-toggle>
+  </ion-item>
+
+<ion-item>
+    <ion-label position="floating">{{"Quantity" | translate}}</ion-label>
+    <ion-input required type="number" [(ngModel)]="product.stock_quantity" name="stock_quantity"></ion-input>
+</ion-item>
+
+<!--div *ngIf="product.attributes?.length">
+  <ion-label>Attributes</ion-label>
+  <ion-item *ngFor="let item of product.attributes">
+  <ion-grid>
+  <ion-row>
+  <ion-col>
+  {{item.name}}
+  </ion-col>
+  <ion-col>
+  {{item.option}}
+  </ion-col>
+  </ion-row>
+  </ion-grid>
+  </ion-item>
+</div-->
+
+  </ion-list>
+
+</div>
+
+  
+</ion-content>

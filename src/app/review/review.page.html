@@ -1,0 +1,34 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home/product"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Review" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<div *ngFor="let item of reviews">
+<ion-item lines="none">
+  <ion-avatar slot="start">
+    <ion-img alt="" src="https://www.gravatar.com/avatar/{{item.avatar}}"></ion-img>
+  </ion-avatar>
+  <ion-label>
+    <h2>{{item.name}}
+     <span class="rating review-star">
+     <span class="star-icon" [ngClass]="{full: item.rating >= 1, half: item.rating == 0.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 2, half: item.rating == 1.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 3, half: item.rating == 2.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 4, half: item.rating == 3.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 5, half: item.rating == 4.5}">&#x2605;</span></span>
+    </h2>
+  <p>{{item.date_created | date:'MMM d, y hh:mm a'}}</p>
+  </ion-label>
+</ion-item>
+<ion-item><ion-label><p text-wrap>{{item.review}}</p></ion-label></ion-item>
+</div>
+
+<ion-infinite-scroll threshold="100px" *ngIf="hasMoreItems" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  
+</ion-content>

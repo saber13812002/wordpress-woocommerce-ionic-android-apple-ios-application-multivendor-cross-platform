@@ -1,0 +1,41 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Forgotten" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="forgotten">
+<div class="form">  
+<ion-list *ngIf="!status.status">
+  <form [formGroup]="email">
+  <ion-item>
+  <ion-input required type="email" formControlName="email" placeholder="{{'Email' | translate}}"></ion-input>
+  </ion-item>
+</form>
+</ion-list>
+
+ <ion-button *ngIf="!status.status" color="{{settings.theme.button}}" expand="block" (click)="forgotten()" [disabled]="!email.valid || disableSubmit" fill="solid">{{"Send OTP" | translate}}</ion-button>
+
+<ion-list *ngIf="status.status">
+    <form [formGroup]="form">
+  <ion-item>
+  <ion-input required type="number" formControlName="otp" placeholder="{{'OTP' | translate}}"></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-input required type="password" formControlName="password" placeholder="{{'New Password' | translate}}"></ion-input>
+  </ion-item>
+</form>
+</ion-list>
+
+ <ion-button *ngIf="status.status" color="{{settings.theme.button}}" expand="block" (click)="resetPassword()" [disabled]="!form.valid || disableSubmit" fill="solid">{{"Reset Password" | translate}}</ion-button>
+
+
+ <ion-item *ngIf="status" lines="none">
+ <ion-label text-center text-wrap [ngClass]="status.status?'success':'error'">{{status.message}}</ion-label>
+</ion-item>
+</div>
+
+</ion-content>

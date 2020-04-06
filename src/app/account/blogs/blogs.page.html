@@ -1,0 +1,45 @@
+<ion-header mode='ios' >
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Blogs" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="blogs">
+
+<div class="spinner" *ngIf="!posts?.posts"><ion-spinner> </ion-spinner></div>
+
+<div *ngIf="posts?.posts">
+<div *ngIf="posts.posts.length == 0" text-center class="empty">
+  <ion-icon name="document"></ion-icon>
+</div>
+
+
+<ion-card class="ion-activatable ion-focusable hydrated" *ngFor="let post of posts.posts" (click)="getDetail(post)">
+  <div *ngIf="post.thumbnail_images?.medium?.url">
+    <ion-img alt="" src="{{post.thumbnail_images?.medium?.url}}"></ion-img>
+  </div>
+  <div *ngIf="post.thumbnail_images?.full?.url && !post.thumbnail_images?.medium?.url">
+    <ion-img alt="" src="{{post.thumbnail_images?.full?.url}}"></ion-img>
+  </div>
+  <ion-card-header>
+    <ion-card-subtitle>{{post.date | datepipe}}</ion-card-subtitle>
+    <ion-card-title>{{post.title}}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content [innerHTML]="post.excerpt">
+  </ion-card-content>
+</ion-card>
+
+<ion-infinite-scroll threshold="100px" *ngIf="hasMoreItems && posts.posts.length" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+</div>
+
+</ion-content>

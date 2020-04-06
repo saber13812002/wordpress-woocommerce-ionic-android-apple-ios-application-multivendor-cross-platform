@@ -1,0 +1,38 @@
+.icon-start {
+    //padding: 6px;
+    background-color: var(--account-header, #36454f); // UnComment this to add background color to icon
+    color: var(--account-header-text, #000);
+    //border-radius: 50%; // Tune this to add rounded corner when added background color
+    font-size: 18px; // Adjust the size of the icon
+}
+.my-account-header {
+    background-color: var(--account-header, #36454f);
+    color: var(--account-header-text, #000);
+    padding-top: 20px;
+    .account-name {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--account-header-text, #000);
+    }
+    .header-menus {
+        ion-item {
+            color: var(--account-header-text, #000);
+        }
+        ion-icon {
+            margin-right: 10px;
+        }
+    }
+}
+.icon-header-icon {
+    padding: 15px;
+    background-color: var(--account-header-text, #000);
+    border-radius: 50%;
+    font-size: xx-large;
+    color: var(--account-header, #36454f);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+ion-list {
+    a {
+        text-decoration-line: none;
+    }
+}

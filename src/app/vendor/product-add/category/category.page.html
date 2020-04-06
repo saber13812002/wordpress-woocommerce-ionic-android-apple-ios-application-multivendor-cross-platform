@@ -1,0 +1,23 @@
+<ion-header mode='ios' class="product-header">
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{"Select Category" | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="categories">
+	<ion-row>
+    <ion-col size='6' *ngFor="let category of data.mainCategories" (click)="getCategory(category.id, category.slug, category.name)">
+    <ion-card class="category-card" class="ion-activatable ion-focusable hydrated" mode="md">
+      <ion-img alt="" src="{{category.image?.src}}"></ion-img>
+      <ion-card-header>
+        <ion-card-subtitle [innerHTML]="category.name"></ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

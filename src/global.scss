@@ -1,0 +1,184 @@
+// http://ionicframework.com/docs/theming/
+@import "~@ionic/angular/css/core.css";
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+@font-face {
+  font-family: "vazir";
+  font-style: normal;
+  font-weight: bold;
+  src: url("assets/font/vazir/numbers/Vazir-FD.ttf");
+}
+@font-face {
+  font-family: "vazir";
+  font-style: normal;
+  font-weight: normal;
+  src: url("assets/font/vazir/Vazir.ttf");
+}
+@font-face {
+  font-family: "Montserrat-Regular";
+  src: url("assets/font/Montserrat/Montserrat-Regular.ttf");
+}
+@font-face {
+  font-family: "Montserrat-Light";
+  src: url("assets/font/Montserrat/Montserrat-Light.ttf");
+}
+
+* {
+  font-family: "vazir" !important;
+}
+.totals-amount {
+  float: right;
+}
+html[dir="rtl"] {
+  .totals-amount {
+    float: left;
+  }
+}
+.spinner {
+  text-align: center;
+  margin: 30px auto;
+}
+.activated {
+  opacity: 0.8;
+  transition-timing-function: ease-out;
+  transition: 0.3s;
+  box-shadow: none;
+}
+.no-shadow {
+  box-shadow: none;
+}
+.border {
+  box-shadow: none;
+  border-bottom: 0.55px solid #f5f5f5;
+  border-top: 0.55px solid #f5f5f5;
+  border-right: 1px solid #f5f5f5;
+  border-left: 1px solid #f5f5f5;
+}
+.scroll-related-products {
+  padding: 16px 0 16px 0;
+  overflow-y: hidden;
+  white-space: nowrap;
+  .product {
+    display: inline-block;
+    text-decoration: none;
+    width: 50%;
+    margin: 0 0 0 10px;
+  }
+  .product:last-child {
+    margin-right: 10px;
+  }
+  @media (min-width: 481px) and (max-width: 768px) {
+    .product {
+      width: 33.333%;
+    }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .product {
+      width: 25%;
+    }
+  }
+  @media (min-width: 1025px) {
+    .product {
+      width: 20%;
+    }
+  }
+  ion-img {
+    height: auto;
+    width: 100%;
+  }
+  ion-card {
+    width: 100%;
+    // TODO: 
+    // height: 100%;
+    margin: 0;
+  }
+  .border {
+    border: 0.55px solid #f5f5f5;
+  }
+}
+.banner_block {
+  img {
+    transition-timing-function: ease-in;
+    transition: 0.3s;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+  .activated {
+    transition-timing-function: ease-out;
+    transition: 0.3s;
+    box-shadow: none;
+  }
+  .no-shadow {
+    box-shadow: none;
+  }
+}
+.wishlist-button-grid {
+  position: absolute;
+  top: 2px;
+  //right: 20px;
+  left: 20px;
+  font-size: 1.5em;
+  margin: 0.4rem -5px;
+  z-index: 5;
+}
+ion-card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.ios {
+  .product-detail-name {
+    ion-label {
+      margin-right: 30px;
+    }
+    ion-icon {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+    }
+  }
+}
+.md {
+  .product-detail-name {
+    ion-label {
+      margin-right: 30px;
+    }
+    ion-icon {
+      position: absolute;
+      top: 0px;
+      right: 16px;
+      // left: 16px;
+    }
+  }
+}
+.empty {
+  margin-top: 50px;
+  text-align: center;
+  ion-icon {
+    font-size: 7.2em;
+    color: var(--ion-color-step-200, #e6e6e6);
+  }
+}
+ion-card-content {
+  color: var(--ion-text-color, #000);
+}
+ion-card-subtitle {
+  --color: var(--ion-text-color, #000);
+  color: var(--ion-text-color, #000);
+}
+del {
+  color: var(--ion-color-step-450);
+}
+.bold {
+  font-weight: bold;
+}

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1047574700157",
+    "firebase_url": "https://behkharj-71a87.firebaseio.com",
+    "project_id": "behkharj-71a87",
+    "storage_bucket": "behkharj-71a87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047574700157:android:9f28a3084550f8f3161114",
+        "android_client_info": {
+          "package_name": "ir.behkharj.woo.ionic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047574700157-7c2qhuhhko9ge1jnr7tqo8b140ac3ej1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq6nZPeS1Al9xkf3uJRYcdpoS9gBBA3RQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047574700157-7c2qhuhhko9ge1jnr7tqo8b140ac3ej1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

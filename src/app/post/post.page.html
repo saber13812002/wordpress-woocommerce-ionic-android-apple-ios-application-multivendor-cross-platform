@@ -1,0 +1,22 @@
+<ion-header mode='ios' >
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="post?.post_title">
+      {{post.post_title}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="post">
+  <div class="spinner" *ngIf="!post"><ion-spinner> </ion-spinner></div>
+    <ion-card *ngIf="post">
+      <ion-img alt="" *ngIf="post.image" src="{{post.image}}"></ion-img>
+      <ion-card-header>
+        <ion-card-title>{{post.post_title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          <div [innerHTML]="post.post_content"></div>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

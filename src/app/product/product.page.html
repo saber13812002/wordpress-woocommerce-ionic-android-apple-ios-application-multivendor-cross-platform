@@ -1,0 +1,217 @@
+<ion-header mode='ios' class="product-header" >
+   <ion-toolbar color="{{settings.theme.header}}">
+      <ion-buttons slot="start">
+         <ion-back-button defaultHref="/tabs/categories/products"></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+         {{product?.name}}
+      </ion-title>
+      <ion-buttons slot="end" (click)="share()">
+         <ion-icon name="share" style="margin-right: 8px;font-size: 23px"></ion-icon>
+      </ion-buttons>
+   </ion-toolbar>
+</ion-header>
+<ion-content class="product">
+   <div class="spinner" *ngIf="!product.id">
+      <ion-spinner> </ion-spinner>
+   </div>
+   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="settings.settings?.enable_product_chat">
+      <a href="https://wa.me/{{settings.settings?.whatsapp_number}}">
+         <ion-fab-button size="small" color="whatsapp">
+            <ion-icon name="logo-whatsapp"></ion-icon>
+         </ion-fab-button>
+      </a>
+   </ion-fab>
+   <div *ngIf="product.id">
+      <ion-slides pager="true" [options]="slideOpts" *ngIf="!product.image" dir="{{settings.dir}}">
+      <ion-slide *ngFor="let item of product.images">
+         <img src="{{item.src}}"/>
+      </ion-slide>
+      </ion-slides>
+      <div *ngIf="product.image">
+         <ion-img src="{{product.image}}"></ion-img>
+      </div>
+      <ion-button color="danger" class="stock" *ngIf="product.stock_status == 'outofstock'">{{"No Stock" | translate}}</ion-button>
+      <div class="product-details">
+         <ion-item lines="none">
+            <ion-label text-wrap>
+               {{product.name}}
+            </ion-label>
+            <ion-icon name="heart-empty" class="heartempty onpress" slot="end" (click)="settings.addToWishlist(product.id)" *ngIf="!settings.wishlist[product.id]"></ion-icon>
+            <ion-icon name="md-heart" class="heartempty onpress" slot="end" color="{{settings.theme.button}}" (click)="settings.removeFromWishlist(product.id)" *ngIf="settings.wishlist[product.id]"></ion-icon>
+         </ion-item>
+
+         <!--WCMP-->
+         <ion-chip (click)='getDetail(product.vendor)' *ngIf="product.vendor && product.store_name">
+         <ion-icon name="person"></ion-icon>
+         <ion-label>{{"SoldBy" | translate }} - {{product.store_name}}</ion-label>
+         </ion-chip>
+         <ion-item lines="none">
+            <ion-label *ngIf="product.sale_price">
+               <span class="price">{{product.sale_price | currency:settings.currency:symbol:'1.0-2'}}</span><span class="special-price"><del>{{product.regular_price | currency:settings.currency:symbol:'1.0-2'}}</del></span>
+            </ion-label>
+            <ion-label *ngIf="!product.sale_price">
+               <span class="price">{{product.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+            </ion-label>
+         </ion-item>
+         <div class="variation-block" *ngIf="variations.length">
+            <div *ngFor="let attribute of usedVariationAttributes" class="variation-product">
+               <h6 style="margin-left: 16px;font-size: 14px;">{{"Select" | translate}} {{attribute.name}}</h6>
+               <div *ngIf="attribute.options.length" class="option-box">
+                  <ion-button class="option-button" fill="outline" color="{{settings.theme.button}}" *ngFor="let option of attribute.options" (click)="chooseVariation(attribute, option)" [ngClass]="{'selected-option': attribute.selected == option}">{{option}}</ion-button>
+               </div>
+            </div>
+         </div>
+
+         <div class="grouped-block" *ngIf="groupedProducts.length">
+            <div *ngFor="let item of groupedProducts" class="variation-product">
+               <ion-input style="margin-left: 16px;margin-right: 16px;" type="number" [(ngModel)]="item.selected" value="0" placeholder="Quantity"></ion-input>
+               <h6 style="margin-left: 16px;font-size: 14px;">{{item.name}}</h6>
+            </div>
+         </div>
+
+         <!-- Product Addons -->
+         <div *ngIf="addonsList.length">
+            <div *ngFor="let item of addonsList; let i = index">
+               <ion-item lines="none" *ngIf="item.description !== ''"><ion-label>{{item.description}}</ion-label></ion-item>
+               <ion-item *ngIf="item.type == 'checkbox' || item.type == 'multiple_choice' || item.type == 'radiobutton'  || item.type == 'select'" class="addons" lines="none">
+                  <ion-label>{{item.name}}</ion-label>
+                  <ion-select [(ngModel)]="item.selected" multiple="true" *ngIf="(item.type == 'checkbox' || item.type == 'multiple_choice') && item.options.length">
+                  <ion-select-option *ngFor="let option of item.options" value="{{option.label}}">{{option.label}}<span *ngIf="option.price"> + {{option.price | currency:settings.currency:true:'1.0-2'}}</span></ion-select-option>
+                  </ion-select>
+                  <ion-select [(ngModel)]="item.selected" *ngIf="item.type == 'radiobutton' && item.options.length">
+                  <ion-select-option *ngFor="let option of item.options" value="{{option.label}}">{{option.label}}<span *ngIf="option.price"> + {{option.price | currency:settings.currency:true:'1.0-2'}}</span></ion-select-option>
+                  </ion-select>
+                  <ion-select [(ngModel)]="item.selected" *ngIf="item.type == 'select' && item.options.length">
+                  <ion-select-option *ngFor="let option of item.options" value="{{option.label}}">{{option.label}}<span *ngIf="option.price"> + {{option.price | currency:settings.currency:true:'1.0-2'}}</span></ion-select-option>
+                  </ion-select>
+               </ion-item>
+               <div style="padding: 0 16px;" *ngFor="let option of item.options; let j = index">
+                  <div *ngIf="item.type == 'custom_textarea'">
+                  <textarea [(ngModel)]="item.options[j].input" placeholder="{{item.name}}" type ="text" style="width: 100%; height: 80px;"></textarea>
+                  </div>
+               </div>
+            </div>
+            <div *ngFor="let item of addonsList; let i = index">
+               <div *ngFor="let option of item.options; let j = index">
+                  <ion-item *ngIf="item.type == 'custom' && item.options.length" class="addon-options">
+                     <ion-label floating>{{option.label}} {{option.price}}</ion-label>
+                     <ion-input required type="text" name="data" [(ngModel)]="item.options[j].input">
+                     </ion-input>
+                  </ion-item>
+               </div>
+            </div>
+            <div *ngFor="let item of addonsList; let i = index">
+               <ion-item *ngIf="item.type == 'custom_text'" class="addon-options">
+                  <ion-label floating>{{item.name}} {{item.price}}</ion-label>
+                  <ion-input required type="text" name="data" [(ngModel)]="item.input">
+                  </ion-input>
+               </ion-item>
+            </div>
+         </div>
+
+         <ion-item lines="none" *ngIf="product.showPoints">
+            <ion-label>Earn {{product.showPoints}} Royalty Points</ion-label>
+         </ion-item>
+         <ion-button *ngIf="product.type != 'external'" class="add-to-cart-button" color="{{settings.theme.button}}" expand="block" fill="solid" [disabled]="disableButton || product.stock_status == 'outofstock'" (click)="addToCart()">{{"ADD TO CART" | translate}}</ion-button>
+         <ion-button *ngIf="product.type == 'external'" class="add-to-cart-button" color="{{settings.theme.button}}" expand="block" fill="solid" [disabled]="disableButton || product.stock_status == 'outofstock'" (click)="buyExternalProduct(product.id)">{{"BUY NOW" | translate}}</ion-button>
+         <ion-item *ngIf="product.short_description">
+            <ion-label text-justify text-wrap [innerHTML]="product.short_description">
+            </ion-label>
+         </ion-item>
+         <ion-item *ngIf="product.description">
+            <ion-label text-justify text-wrap [innerHTML]="product.description">
+            </ion-label>
+         </ion-item>
+      </div>
+      <div *ngIf="relatedProducts?.length" class="related-products">
+         <ion-list-header>
+            <ion-label>{{"More like this" | translate}}</ion-label>
+         </ion-list-header>
+         <div class="scroll-related-products">
+            <div class="product" *ngFor="let item of relatedProducts" [style.width.px]="settings.dimensions.productSliderWidth">
+            <ion-card mode="md" class="ion-activatable ion-focusable hydrated {{settings.settings.product_shadow}}" [style.border-radius.px]="settings.dimensions.productBorderRadius">
+               <ion-img (click)="goToProduct(item)" alt="" [style.height.px]="settings.dimensions.homeSliderHeight" src="{{item?.images[0]?.src}}"></ion-img><ion-icon name="heart-empty" mode="md" class="wishlist-button-grid" *ngIf="!settings.wishlist[item.id]" (click)="settings.addToWishlist(item.id)"></ion-icon>
+               <ion-icon name="heart" color="{{settings.theme.button}}" mode="md" class="wishlist-button-grid" *ngIf="settings.wishlist[item.id]" (click)="settings.removeFromWishlist(item.id)"></ion-icon>
+               <ion-card-header (click)="goToProduct(item)">
+                  <ion-card-subtitle mode="md">{{item.name}}</ion-card-subtitle>
+               </ion-card-header>
+               <ion-card-content (click)="goToProduct(item)">
+                  <p class="price">
+                     <span class="regular-price" *ngIf="!item.sale_price">{{item.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+                     <span class="regular-price" *ngIf="item.sale_price">{{item.sale_price | currency:settings.currency:symbol:'1.0-2'}}<span class="special-price"><del>{{item.regular_price | currency:settings.currency:symbol:'1.0-2'}}</del></span></span>
+                  </p>
+               </ion-card-content>
+            </ion-card>
+         </div>
+      </div>
+   </div>
+   <div *ngIf="upsellProducts?.length" class="related-products">
+      <ion-list-header>
+         <ion-label>{{"You might love" | translate}}</ion-label>
+      </ion-list-header>
+      <div class="scroll-related-products">
+         <div class="product" *ngFor="let item of upsellProducts" [style.width.px]="settings.dimensions.productSliderWidth">
+         <ion-card mode="md" class="ion-activatable ion-focusable hydrated {{settings.settings.product_shadow}}" [style.border-radius.px]="settings.dimensions.productBorderRadius">
+            <ion-img alt="" [style.height.px]="settings.dimensions.homeSliderHeight" src="{{item?.images[0]?.src}}"></ion-img>
+            <ion-icon name="heart-empty" mode="md" class="wishlist-button-grid" *ngIf="!settings.wishlist[item.id]" (click)="settings.addToWishlist(item.id)"></ion-icon>
+            <ion-icon name="heart" color="{{settings.theme.button}}" mode="md" class="wishlist-button-grid" *ngIf="settings.wishlist[item.id]" (click)="settings.removeFromWishlist(item.id)"></ion-icon> 
+            <ion-card-header (click)="goToProduct(item)">
+               <ion-card-subtitle mode="md">{{item.name}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content (click)="goToProduct(item)">
+               <p class="price">
+                  <span class="regular-price" *ngIf="!item.sale_price">{{item.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+                  <span class="regular-price" *ngIf="item.sale_price">{{item.sale_price | currency:settings.currency:symbol:'1.0-2'}}<span class="special-price"><del>{{item.regular_price | currency:settings.currency:symbol:'1.0-2'}}</del></span></span>
+               </p>
+            </ion-card-content>
+         </ion-card>
+      </div>
+   </div>
+   </div>
+   <div *ngIf="crossSellProducts?.length" class="related-products">
+      <ion-list-header>
+         <ion-label>{{"Recommended" | translate}}</ion-label>
+      </ion-list-header>
+      <div class="scroll-related-products">
+         <div class="product" *ngFor="let item of crossSellProducts" [style.width.px]="settings.dimensions.productSliderWidth">
+         <ion-card mode="md" class="ion-activatable ion-focusable hydrated {{settings.settings.product_shadow}}" [style.border-radius.px]="settings.dimensions.productBorderRadius">
+            <ion-img alt="" (click)="goToProduct(item)" [style.height.px]="settings.dimensions.homeSliderHeight" src="{{item?.images[0]?.src}}"></ion-img><ion-icon name="heart-empty" mode="md" class="wishlist-button-grid" *ngIf="!settings.wishlist[item.id]" (click)="settings.addToWishlist(item.id)"></ion-icon>
+            <ion-icon name="heart" color="{{settings.theme.button}}" mode="md" class="wishlist-button-grid" *ngIf="settings.wishlist[item.id]" (click)="settings.removeFromWishlist(item.id)"></ion-icon>
+            <ion-card-header (click)="goToProduct(item)">
+               <ion-card-subtitle mode="md">{{item.name}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content (click)="goToProduct(item)">
+               <p class="price">
+                  <span class="regular-price" *ngIf="!item.sale_price">{{item.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+                  <span class="regular-price" *ngIf="item.sale_price">{{item.sale_price | currency:settings.currency:symbol:'1.0-2'}}<span class="special-price"><del>{{item.regular_price | currency:settings.currency:symbol:'1.0-2'}}</del></span></span>
+               </p>
+            </ion-card-content>
+         </ion-card>
+      </div>
+   </div>
+   </div>
+   <ion-item (click)="getReviewsPage()" *ngIf="reviews?.length" class="review-item ion-activatable">
+   <ion-label>{{reviews.length}} {{"Customer Reviews" | translate}}</ion-label>
+   <ion-icon name="ios-arrow-forward" item-end></ion-icon>
+   </ion-item>
+   <div *ngFor="let item of reviews">
+      <ion-item lines="none">
+         <ion-avatar slot="start">
+            <ion-img alt="" src="https://www.gravatar.com/avatar/{{item.avatar}}"></ion-img>
+         </ion-avatar>
+         <ion-label>
+            {{item.name}}
+            <span class="rating review-star">
+            <span class="star-icon" [ngClass]="{full: item.rating >= 1, half: item.rating == 0.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 2, half: item.rating == 1.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 3, half: item.rating == 2.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 4, half: item.rating == 3.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 5, half: item.rating == 4.5}">&#x2605;</span></span>
+            <p>{{item.date_created | date:'MMM d, y hh:mm a'}}</p>
+         </ion-label>
+      </ion-item>
+      <ion-item>
+         <ion-label>
+            <p text-wrap>{{item.review}}</p>
+         </ion-label>
+      </ion-item>
+   </div>
+   </div>
+</ion-content>

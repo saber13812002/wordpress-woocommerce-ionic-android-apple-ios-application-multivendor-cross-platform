@@ -1,0 +1,61 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{"Products" | translate}}
+    </ion-title>
+    <ion-buttons slot="end" fill="clear" (click)="getFilter()"><ion-icon name="funnel" style="margin-right: 8px;font-size: 23px"></ion-icon></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="spinner" *ngIf="loader"><ion-spinner> </ion-spinner></div>
+
+  <div class="spinner" *ngIf="!loader && products?.length == 0">{{"No Results" | translate}}</div>
+
+  <div *ngIf="subCategories.length" class="scrollmenu2">
+    <a *ngFor="let item of subCategories">
+      <ion-img *ngIf="item.image?.src" src="{{item.image.src}}" class="ion-activatable ion-focusable hydrated" (click)="getCategory(item.id)" [style.border-radius.px]="settings.dimensions.productBorderRadius"></ion-img>
+      <h5 (click)="getCategory(item.id, item.slug, item.name)"><span [innerHTML]="item.name"></span></h5>
+    </a>
+  </div>
+  
+  <ion-list>
+    <ion-item *ngFor="let product of products">
+      <ion-thumbnail slot="start" (click)="getProduct(product)">
+        <img src="{{product.images[0].src}}" *ngIf="product.images.length">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{product.name}}</h2>
+        <p class="price">
+          <span class="regular-price">{{1*product.price | currency:settings.currency:symbol:'1.0-2'}}</span>
+            <span *ngIf="product.sale_price" class="special-price"><del>{{1*product.sale_price | currency:settings.currency:symbol:'1.0-2'}}</del></span>
+        </p>
+
+        <ion-button (click)="getProduct(product)" color="{{settings.theme.button}}" fill="clear" slot="start">
+          <ion-icon slot="icon-only" name="eye"></ion-icon>
+        {{"View" | translate}}
+        </ion-button>
+        <ion-button (click)="editProduct(product)" color="{{settings.theme.button}}" fill="clear" slot="end">
+          <ion-icon slot="icon-only" name="create" mode="ios"></ion-icon>
+        {{"Edit" | translate}}
+        </ion-button>
+
+        <ion-button (click)="delete(product)" color="{{settings.theme.button}}" fill="clear" slot="end">
+          <ion-icon slot="icon-only" name="trash" mode="ios"></ion-icon>
+        </ion-button>
+
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" *ngIf="hasMoreItems && products?.length" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+	
+</ion-content>

@@ -1,0 +1,42 @@
+<ion-header mode='ios' >
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account/blogs"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="post.post.post?.title">{{post.post.post.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="post">
+<div class="spinner" *ngIf="!post.post.post"><ion-spinner> </ion-spinner></div>
+<div *ngIf="post.post.post">
+<ion-card>
+  <div *ngIf="post.post.post.thumbnail_images?.medium?.url">
+    <ion-img alt="" src="{{post.post.post.thumbnail_images?.medium?.url}}"></ion-img>
+  </div>
+  <div *ngIf="post.post.post.thumbnail_images?.full?.url && !post.post.post.thumbnail_images?.medium?.url">
+    <ion-img alt="" src="{{post.post.post.thumbnail_images?.full?.url}}"></ion-img>
+  </div>
+  <ion-card-header>
+    <ion-card-subtitle>{{post.post.post.date | datepipe}}</ion-card-subtitle>
+    <ion-card-title>{{post.post.post.title}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content [innerHTML]="post.post.post.content">
+  </ion-card-content>
+</ion-card>
+</div>
+
+<div *ngFor="let item of post.post?.post?.comments" class="comments">
+<ion-item lines="none">
+  <ion-avatar slot="start">
+    <ion-icon color="medium" name="contact" mode="ios"></ion-icon>
+  </ion-avatar>
+  <ion-label>
+    <h2>{{item.name}}</h2>
+  <p>{{item.date | datepipe}}</p>
+  </ion-label>
+</ion-item>
+<ion-item><ion-label><p text-wrap [innerHTML]="item.content"></p></ion-label></ion-item>
+</div>
+
+</ion-content>

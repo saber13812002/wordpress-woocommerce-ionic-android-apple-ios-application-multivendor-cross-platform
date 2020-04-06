@@ -1,0 +1,119 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+  	<ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/cart/address"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Checkout" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+<div class="spinner" *ngIf="!orderReview"><ion-spinner></ion-spinner></div>
+
+<div *ngIf="orderReview">
+<ion-list>
+	<ion-list-header>
+    <ion-label>{{"Billing Address" | translate}}</ion-label>
+  </ion-list-header>
+
+  <ion-item>
+    <ion-label text-wrap>
+      <p>
+    <span>{{checkoutData.form.billing_first_name}}</span>&nbsp;<span>{{checkoutData.form.billing_last_name}}</span>&nbsp;<span>{{checkoutData.form.billing_company}}</span>&nbsp;<span>{{checkoutData.form.billing_address_1}}</span>&nbsp;<span>{{checkoutData.form.billing_address_2}}</span>&nbsp;<span>{{checkoutData.form.billing_city}}</span>
+    <span>{{checkoutData.form.billing_state}}</span>&nbsp;<span>{{checkoutData.form.billing_postcode}}</span>&nbsp;<span>{{checkoutData.form.billing_country}}</span>
+    &nbsp;<span>{{checkoutData.form.billing_email}}</span>&nbsp;<span>{{checkoutData.form.billing_phone}}</span>
+  </p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+<ion-list>
+  <ion-list-header>
+    <ion-label>{{"Shipping Address" | translate}}</ion-label>
+  </ion-list-header>
+
+  <ion-item>
+    <ion-label text-wrap>
+      <p>
+    <span>{{checkoutData.form.shipping_first_name}}</span>&nbsp;<span>{{checkoutData.form.shipping_last_name}}</span>&nbsp;<span>{{checkoutData.form.shipping_company}}</span>&nbsp;<span>{{checkoutData.form.shipping_address_1}}</span>&nbsp;<span>{{checkoutData.form.shipping_address_2}}</span>&nbsp;<span>{{checkoutData.form.shipping_city}}</span>&nbsp;
+    <span>{{checkoutData.form.shipping_state}}</span>&nbsp;<span>{{checkoutData.form.shipping_postcode}}</span>&nbsp;<span>{{checkoutData.form.shipping_country}}</span>&nbsp;
+    <span>{{checkoutData.form.shipping_email}}</span>&nbsp;<span>{{checkoutData.form.shipping_phone}}</span>
+  </p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+
+<ion-list *ngIf="orderReview?.shipping">
+  <ion-radio-group *ngFor="let package of orderReview.shipping" [(ngModel)]="package.chosen_method" (ngModelChange)="updateOrderReview()">
+    <ion-list-header>
+      <span [innerHTML]="package.package_name"></span>
+    </ion-list-header>
+    <ion-item *ngIf="isEmptyObject(package.shipping)">
+      <ion-label><p>{{"No Shipping Available" | translate}}</p></ion-label>
+    </ion-item>
+    <ion-item *ngFor="let method of package.shipping | keys">
+      <ion-label><span [innerHTML]="method.value.label"></span> <b>-</b> <span>{{method.value.cost | currency:settings.currency:true:'1.0-2'}}</span></ion-label>
+      <ion-radio color="{{settings.theme.button}}" value="{{method.value.id}}"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-list>
+
+<ion-list *ngIf="orderReview?.payment">
+  <ion-radio-group [(ngModel)]="checkoutData.form.payment_method" (ngModelChange)="onChangePayment()">
+    <ion-list-header>
+      {{"Payment Method" | translate}}
+    </ion-list-header>
+    <ion-item *ngFor="let method of orderReview.payment | keys">
+      <ion-label text-wrap class="ion-text-nowrap"><span [innerHTML]="method.value.title"></span></ion-label>
+      <ion-radio color="{{settings.theme.button}}" value="{{method.value.id}}"></ion-radio>
+     
+    </ion-item>
+    <ion-item class="payment-description" *ngIf="orderReview.payment[checkoutData.form.payment_method]?.description" lines="none">
+    <ion-label text-wrap> 
+    <span [innerHTML]="orderReview.payment[checkoutData.form.payment_method]?.description"></span>
+     </ion-label>
+   </ion-item>
+  </ion-radio-group>
+</ion-list>
+
+  <div *ngIf="cardResponse.cardNumber && checkoutData.form.payment_method == 'stripe'">
+      <ion-card mode="md">
+          <ion-item *ngIf="cardResponse.cardNumber">
+            <ion-label text-wrap>
+              <ion-text>
+                <h3>{{"Card Number" | translate}}</h3>
+              </ion-text>
+              <p>{{cardResponse.cardNumber}}</p>
+            </ion-label>
+          </ion-item>
+
+            <ion-item>
+            <ion-label text-wrap>
+              <ion-text>
+                <h3>{{"Expiry Date" | translate}}</h3>
+              </ion-text>
+              <p>{{cardResponse.expiryMonth}}/{{cardResponse.expiryYear}}</p>
+            </ion-label>
+          </ion-item>
+
+            <ion-item>
+            <ion-label text-wrap>
+              <ion-text>
+                <h3>{{"CVV" | translate}}</h3>
+              </ion-text>
+              <p>{{cardResponse.cvv}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+  </div>
+
+<div *ngIf="errorMessage">
+  <h2 [innerHTML]="errorMessage" style="font-size: 14px;  color: red; text-align: center;"></h2>
+  </div>
+
+<ion-button [disabled]="disableButton" color="{{settings.theme.button}}" expand="block" fill="solid" (click)="placeOrder()">{{'Place order' | translate}}</ion-button>
+</div>
+
+</ion-content>

@@ -1,0 +1,62 @@
+<ion-header mode='ios'>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Register' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+
+    <!-- Top header image. uncomment if not using background image in scss file -->
+  <div class="login-logo">
+    <img src="assets/image/login_logo2.jpg">
+  </div>
+
+<!-- Login Form 1 -->
+<div class="login1">
+  <ion-card mode="md">
+  <div class="form">
+
+
+<ion-list>
+  <form [formGroup]="form">
+  <ion-item>
+  <ion-input required type="text" formControlName="first_name" placeholder="{{'First Name' | translate}}"></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-input required type="text" formControlName="last_name" placeholder="{{'Last Name' | translate}}"></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-input required type="text" formControlName="phone" placeholder="{{'Phone' | translate}}"></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-input required type="email" formControlName="email" placeholder="{{'Email' | translate}}"></ion-input>
+  </ion-item>
+  <ion-item>
+  <ion-input required type="password" formControlName="password" placeholder="{{'Password' | translate}}"></ion-input>
+  </ion-item>
+</form>
+</ion-list>
+ <ion-button color="{{settings.theme.button}}" expand="block" fill="solid" [disabled]="!form.valid || disableSubmit" (click)="onSubmit()">{{'Register' | translate}}</ion-button>
+
+ <!--ion-button-- expand="block" shape="undefined" mode="ios" fill="clear" color="facebook" (click)="loginWithPhone()" [disabled]="phoneLogingInn"><ion-spinner name="dots" color="{{settings.theme.button}}" *ngIf="phoneLogingInn"></ion-spinner><span *ngIf="!phoneLogingInn">{{'Register with OTP' | translate}}</span></!--ion-button-->
+
+<div class="errors" *ngIf="errors">
+  <div *ngFor="let error of errors | keys">
+    <span [innerHTML]="error.value"></span>
+  </div>
+ </div>
+
+ 
+ <ion-item *ngIf="status" lines="none">
+ <ion-label text-center text-wrap [ngClass]="status.status?'success':'error'">{{status.message}}</ion-label>
+</ion-item>
+</div>
+
+
+  </ion-card>
+
+</div>
+</ion-content>

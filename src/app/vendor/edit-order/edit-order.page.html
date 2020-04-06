@@ -1,0 +1,186 @@
+<ion-header mode='ios'>
+  <ion-toolbar color="{{settings.theme.header}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/account/order-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{"Edit Order" | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+	<div *ngIf="orders">
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label>{{"Order ID" | translate}} - {{orders.id}}</ion-label>
+    </ion-item>
+
+    <ion-item style="padding-top:10px">
+      <ion-label position="floating"y>Status</ion-label>
+      <ion-select [(ngModel)]="orders.status" name="status" okText="OK" cancelText="Cancel">
+                <ion-select-option value="processing">{{"processing" | translate}}</ion-select-option>
+                <ion-select-option value="on-hold">{{"on-hold" | translate}}</ion-select-option>
+                <ion-select-option value="completed">{{"completed" | translate}}</ion-select-option>
+                <ion-select-option value="cancelled">{{"cancelled" | translate}}</ion-select-option>
+                <ion-select-option value="refunded">{{"refunded" | translate}}</ion-select-option>
+                <ion-select-option value="failed">{{"failed" | translate}}</ion-select-option>
+                <ion-select-option value="pending">{{"pending" | translate}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{"Discount Total" | translate}}</ion-label>
+      <ion-input required type="number" [(ngModel)]="orders.discount_total" name="discount_total"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{"Shipping Total" | translate}}</ion-label>
+      <ion-input required type="number" [(ngModel)]="orders.shipping_total" name="shipping_total"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{"Total" | translate}}</ion-label>
+      <ion-input required type="number" [(ngModel)]="orders.total" name="total"></ion-input>
+    </ion-item>
+
+    <ion-item>
+	  <ion-label position="floating">{{"customer note" | translate}}</ion-label>
+	  <ion-textarea rows="3" required type="text" [(ngModel)]="orders.customer_note" name="customer_note"></ion-textarea>
+	</ion-item>
+
+    <ion-item style="background: #f2f2f2">
+      <ion-label>{{"Billing Address" | translate}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"First Name" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.first_name" name="billing_first_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Last Name" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.last_name" name="billing_last_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Company" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.company" name="billing_company"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Address" | translate}}1</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.address_1" name="billing_address_1"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Address" | translate}}2</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.address_2" name="billing_address_2"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"City" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.city" name="billing_city"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"State" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.state" name="billing_state"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Postcode" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.postcode" name="billing_postcode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Country" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.country" name="billing_country"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Email" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.billing.email" name="billing_email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Phone" | translate}}</ion-label>
+      <ion-input required type="number" [(ngModel)]="orders.billing.phone" name="billing_phone"></ion-input>
+    </ion-item>
+
+    <ion-item style="background: #f2f2f2">
+      <ion-label>{{"Shipping Address" | translate}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"First Name" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.first_name" name="shipping_first_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Last Name" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.last_name" name="shipping_last_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Company" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.company" name="shipping_company"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Address" | translate}}1</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.address_1" name="shipping_address_1"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Address" | translate}}2</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.address_2" name="shipping_address_2"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"City" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.city" name="shipping_city"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"State" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.state" name="shipping_state"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Postcode" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.postcode" name="shipping_postcode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{"Country" | translate}}</ion-label>
+      <ion-input required type="text" [(ngModel)]="orders.shipping.country" name="shipping_country"></ion-input>
+    </ion-item>
+
+    <ion-item style="background: #f2f2f2">
+      <h2 item-left style="font-size: 19px">{{"Line Items" | translate}}</h2>
+    </ion-item>
+
+    <div *ngIf="orders.line_items.length">
+          <div *ngFor="let item of orders.line_items">
+                <ion-list style="margin-bottom: 5px;">
+                    <ion-item>
+                      <ion-label>{{item.name}}</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label position="floating">{{"Price" | translate}}</ion-label>
+                      <ion-input required type="number" [(ngModel)]="item.price" name="price"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label position="floating">{{"Quantity" | translate}}</ion-label>
+                      <ion-input required type="number" [(ngModel)]="item.quantity" name="quantity"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label position="floating">{{"Sub Total" | translate}}</ion-label>
+                      <ion-input required type="number" [(ngModel)]="item.subtotal" name="subtotal"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label position="floating">{{"Total" | translate}}</ion-label>
+                      <ion-input required type="number" [(ngModel)]="item.total" name="total"></ion-input>
+                    </ion-item>
+                </ion-list>
+          </div>
+    </div>
+
+
+  </ion-list>
+
+  <div style="text-align: center;">
+    <ion-button size="full" color="{{settings.theme.button}}" (click)="save()" [disabled]="disableButton">{{"Save" | translate}}</ion-button>
+  </div>
+
+</div>
+
+</ion-content>
